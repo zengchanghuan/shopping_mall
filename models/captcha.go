@@ -6,7 +6,9 @@ import (
 	"image/color"
 )
 
-var store = base64Captcha.DefaultMemStore
+//var store = base64Captcha.DefaultMemStore
+//配置RedisStore  RedisStore实现base64Captcha.Store接口
+var store base64Captcha.Store = RedisStore{}
 
 func MakeCaptcha() (string, string, error) {
 	var driver base64Captcha.Driver
