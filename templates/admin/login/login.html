@@ -5,16 +5,15 @@
 <html>
 <head>
   <title>用户登录</title>  
-	<link rel="stylesheet" href="/static/admin/css/login.css">
+	<link rel="stylesheet" href="/static/admin/css/login.css"> 
     <script type="text/javascript" src="/static/admin/bootstrap/js/jquery-1.10.1.js"></script>
     <script type="text/javascript" src="/static/admin/js/login.js"></script>
-
-</head>
+   </head>
 <body>
 <div class="container">
         <div id="login">
-            <form action="/admin/doLogin" method="post" id="myform">
-            <input type="hidden" name="captchaId" id="captchaId">
+                <form action="/admin/doLogin" method="post" id="myform">                    
+                    <input type="hidden" name="captchaId" id="captchaId">
                     <div class="l_title">小米商城后台管理系统-IT营</div>
                     <dl>
                         <dd>管理员姓名：<input class="text" type="text" name="username" id="username"></dd>

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gin-contrib/sessions"
 	"net/http"
@@ -28,6 +29,7 @@ func (con LoginController) DoLogin(c *gin.Context) {
 	if flag := models.VerifyCaptcha(captchaId, verifyValue); flag {
 		//2、查询数据库 判断用户以及密码是否存在
 		userinfoList := []models.Manager{}
+		//var userinfoList []models.Manager
 		password = models.Md5(password)
 
 		models.DB.Where("username=? AND password=?", username, password).Find(&userinfoList)
