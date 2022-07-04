@@ -20,6 +20,7 @@ func (con LoginController) Index(c *gin.Context) {
 }
 func (con LoginController) DoLogin(c *gin.Context) {
 
+	//获取表单传过来的数据
 	captchaId := c.PostForm("captchaId")
 	username := c.PostForm("username")
 	password := c.PostForm("password")
