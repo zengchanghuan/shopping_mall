@@ -1,11 +1,10 @@
-$(function (){
+$(function(){
     app.init();
 })
-
 var app={
     init:function(){
         this.getCaptcha()
-        this.captchaImgChange()
+        this.captchaImgChage()
     },
     getCaptcha:function(){
         $.get("/admin/captcha?t="+Math.random(),function(response){
@@ -14,8 +13,8 @@ var app={
             $("#captchaImg").attr("src",response.captchaImage)
         })
     },
-    captchaImgChange:function(){
-        const that = this;
+    captchaImgChage:function(){
+        var that=this;
         $("#captchaImg").click(function(){
             that.getCaptcha()
         })

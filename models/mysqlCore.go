@@ -21,7 +21,6 @@ func init() {
 		fmt.Printf("Fail to read file: %v", iniErr)
 		os.Exit(1)
 	}
-
 	ip := config.Section("mysql").Key("ip").String()
 	port := config.Section("mysql").Key("port").String()
 	user := config.Section("mysql").Key("user").String()

@@ -3,10 +3,10 @@ package admin
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-contrib/sessions"
 	"net/http"
 	"shopping_mall/models"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,12 +15,14 @@ type LoginController struct {
 }
 
 func (con LoginController) Index(c *gin.Context) {
+	//验证md5是否正确
+	// fmt.Println(models.Md5("123456"))   e10adc3949ba59abbe56e057f20f883e
+
 	c.HTML(http.StatusOK, "admin/login/login.html", gin.H{})
 
 }
 func (con LoginController) DoLogin(c *gin.Context) {
 
-	//获取表单传过来的数据
 	captchaId := c.PostForm("captchaId")
 	username := c.PostForm("username")
 	password := c.PostForm("password")
@@ -30,7 +32,6 @@ func (con LoginController) DoLogin(c *gin.Context) {
 	if flag := models.VerifyCaptcha(captchaId, verifyValue); flag {
 		//2、查询数据库 判断用户以及密码是否存在
 		userinfoList := []models.Manager{}
-		//var userinfoList []models.Manager
 		password = models.Md5(password)
 
 		models.DB.Where("username=? AND password=?", username, password).Find(&userinfoList)
@@ -53,6 +54,7 @@ func (con LoginController) DoLogin(c *gin.Context) {
 	}
 
 }
+
 func (con LoginController) Captcha(c *gin.Context) {
 	id, b64s, err := models.MakeCaptcha()
 
@@ -63,4 +65,10 @@ func (con LoginController) Captcha(c *gin.Context) {
 		"captchaId":    id,
 		"captchaImage": b64s,
 	})
+}
+func (con LoginController) LoginOut(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Delete("userinfo")
+	session.Save()
+	con.success(c, "退出登录成功", "/admin/login")
 }
