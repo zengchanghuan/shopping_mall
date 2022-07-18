@@ -15,8 +15,8 @@ type LoginController struct {
 }
 
 func (con LoginController) Index(c *gin.Context) {
-	//验证md5是否正确
-	// fmt.Println(models.Md5("123456"))   e10adc3949ba59abbe56e057f20f883e
+	//验证md5是否正确 e10adc3949ba59abbe56e057f20f883e
+	//fmt.Println(models.Md5("123456"))
 
 	c.HTML(http.StatusOK, "admin/login/login.html", gin.H{})
 
@@ -31,9 +31,9 @@ func (con LoginController) DoLogin(c *gin.Context) {
 	//1、验证验证码是否正确
 	if flag := models.VerifyCaptcha(captchaId, verifyValue); flag {
 		//2、查询数据库 判断用户以及密码是否存在
-		userinfoList := []models.Manager{}
+		var userinfoList []models.Manager
+		//查访前对password加密
 		password = models.Md5(password)
-
 		models.DB.Where("username=? AND password=?", username, password).Find(&userinfoList)
 
 		if len(userinfoList) > 0 {
@@ -41,8 +41,13 @@ func (con LoginController) DoLogin(c *gin.Context) {
 			session := sessions.Default(c)
 			//注意：session.Set没法直接保存结构体对应的切片 把结构体转换成json字符串
 			userinfoSlice, _ := json.Marshal(userinfoList)
+			fmt.Println(userinfoList)
+			fmt.Println(userinfoSlice)
+			fmt.Println(string(userinfoSlice))
 			session.Set("userinfo", string(userinfoSlice))
 			session.Save()
+
+			//登录成功执行跳转
 			con.success(c, "登录成功", "/admin")
 
 		} else {
@@ -67,6 +72,8 @@ func (con LoginController) Captcha(c *gin.Context) {
 	})
 }
 func (con LoginController) LoginOut(c *gin.Context) {
+
+	//销毁session里的对应数据
 	session := sessions.Default(c)
 	session.Delete("userinfo")
 	session.Save()

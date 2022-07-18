@@ -25,6 +25,7 @@ func InitAdminAuthMiddleware(c *gin.Context) {
 
 	//  1、获取Url访问的地址   /admin/captcha?t=0.8706946438889653
 	pathname := strings.Split(c.Request.URL.String(), "?")[0]
+	fmt.Println(pathname)
 	// 2、获取Session里面保存的用户信息
 	session := sessions.Default(c)
 	userinfo := session.Get("userinfo")
