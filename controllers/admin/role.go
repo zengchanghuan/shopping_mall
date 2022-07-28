@@ -34,7 +34,7 @@ func (con RoleController) DoAdd(c *gin.Context) {
 		con.Error(c, "角色的标题不能为空", "/admin/role/add")
 		return
 	}
-	role := models.Role{}
+	role := models.Role{} 
 	role.Title = title
 	role.Description = description
 	role.Status = 1
